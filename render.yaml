@@ -11,7 +11,7 @@ services:
 
     # Start command inside the container
     # Do NOT include `docker run` here; Render runs the container automatically
-    startCommand: flask --app app run --host=0.0.0.0 --port=5000
+    # startCommand: flask --app app run --host=0.0.0.0 --port=5000
 
     # Environment variables
     envVars:

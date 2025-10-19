@@ -9,17 +9,40 @@ services:
     dockerfilePath: Dockerfile # Path to Dockerfile (root of repo)
     plan: free                 # Free tier for students
 
-    # Build & start commands for Docker
-    buildCommand: docker build -t flask-demo-lab .
-    startCommand: docker run -p 10000:5000 flask-demo-lab
+    # Start command inside the container
+    # Do NOT include `docker run` here; Render runs the container automatically
+    startCommand: flask --app app run --host=0.0.0.0 --port=5000
 
     # Environment variables
     envVars:
       - key: FLASK_ENV
-        value: 
+        value: production
       - key: SECRET_KEY
         value: "CHANGE_THIS_TO_A_SECRET"  # Students should change this
 
+    # Optional: mount a volume for persistent storage
+    # Students can uncomment and configure if they want to store files
+    # volumes:
+    #   - name: flask-data
+    #     mountPath: /app/data
+
+# Health check configuration:
+# Render UI currently manages health checks via the service settings.
+# To enable:
+#   1. Go to your web service in Render.
+#   2. Open "Health Checks".
+#   3. Set the Path to `/health` (your Flask app must have @app.route("/health"))
+#   4. Set "Check Interval" to 300 seconds (5 minutes).
+#   5. Set Timeout to 5 seconds, Healthy Threshold to 1, Unhealthy Threshold to 3.
+
+# Notes for students:
+# 1. Ensure your Flask app has a `/health` endpoint returning JSON, e.g.:
+#       @app.route("/health")
+#       def health():
+#           return jsonify({"status": "ok"})
+# 2. All development should happen in your fork or local clone.
+# 3. Commit changes to GitHub; Render will auto-deploy from your repo branch.
+#code on Health you can uncomment or add your new code for this if required - alot is handled through the render dashboard though!
     # Health check for monitoring container
    # healthCheckPath: /health
    # healthCheckIntervalSeconds: 60       # Check every 60 seconds

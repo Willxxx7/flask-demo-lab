@@ -1,30 +1,35 @@
-# This is the Render blueprint for the Flask demo lab.
-# Students can edit this file to customize the container deployment.
+# Render blueprint for Flask demo lab
+# Students can edit this file to customize container deployment
 
 services:
-  - type: web                  # This is a web service (Flask app)
+  - type: web                  # Web service (Flask app)
     name: flask-demo-lab       # Name of the service in Render
     env: docker                # Use Docker container
     branch: main               # Branch to deploy from
-    dockerfilePath: Dockerfile # Path to your Dockerfile (in root)
+    dockerfilePath: Dockerfile # Path to Dockerfile (root of repo)
     plan: free                 # Free tier for students
+
+    # Build & start commands for Docker
     buildCommand: docker build -t flask-demo-lab .
     startCommand: docker run -p 10000:5000 flask-demo-lab
+
+    # Environment variables
     envVars:
       - key: FLASK_ENV
         value: production
       - key: SECRET_KEY
-        value: "CHANGE_THIS_TO_A_SECRET" # Students should change this
+        value: "CHANGE_THIS_TO_A_SECRET"  # Students should change this
 
-    # Optional: health check endpoint for monitoring
+    # Health check for monitoring container
     healthCheckPath: /health
     healthCheckIntervalSeconds: 60       # Check every 60 seconds
     healthCheckTimeoutSeconds: 5         # Timeout after 5 seconds
-    healthCheckHealthyThreshold: 1       # Mark healthy after 1 success
-    healthCheckUnhealthyThreshold: 3     # Mark unhealthy after 3 failures
+    healthCheckHealthyThreshold: 1       # Healthy after 1 success
+    healthCheckUnhealthyThreshold: 3     # Unhealthy after 3 failures
 
     # Optional: mount a volume for persistent storage
     # Students can uncomment the next lines if they want to store files
     # volumes:
     #   - name: flask-data
     #     mountPath: /app/data
+Notes for students:
